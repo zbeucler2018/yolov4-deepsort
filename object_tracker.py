@@ -255,7 +255,7 @@ def main(_argv):
     cv2.destroyAllWindows()
 
 
-    with open('./data_csv') as f:
+    with open('./data_csv', 'w') as f:
         writer = csv.writer(f)
         writer.writerow(["frame_num", "class_name", "track_id", "xmin", "ymin", "xmax", "ymax"])
         for row in ALL_MIDPOINT_DATA:
