@@ -246,21 +246,18 @@ def main(_argv):
             out.write(result)
         if cv2.waitKey(1) & 0xFF == ord('q'): break
 
-        if frame_num == 10: break
+        if FLAGS.stop_at_frame > -1 and frame_num == FLAGS.stop_at_frame: break
 
 
     
     cv2.destroyAllWindows()
 
-    if FLAGS.save_midpoints:
-        with open('./data_csv', 'w') as f:
-            writer = csv.writer(f)
-            writer.writerow(["frame_num", "class_name", "track_id", "xmin", "ymin", "xmax", "ymax"])
-            for row in ALL_MIDPOINT_DATA:
-                writer.writerow([str(r) for r in row])
-
-
-    
+    # if FLAGS.save_midpoints:
+    #     with open('./data_csv', 'w') as f:
+    #         writer = csv.writer(f)
+    #         writer.writerow(["frame_num", "class_name", "track_id", "xmin", "ymin", "xmax", "ymax"])
+    #         for row in ALL_MIDPOINT_DATA:
+    #             writer.writerow([str(r) for r in row])
 
 
 
