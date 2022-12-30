@@ -23,6 +23,7 @@ from deep_sort import preprocessing, nn_matching
 from deep_sort.detection import Detection
 from deep_sort.tracker import Tracker
 from tools import generate_detections as gdet
+import csv
 flags.DEFINE_string('framework', 'tf', '(tf, tflite, trt')
 flags.DEFINE_string('weights', './checkpoints/yolov4-416',
                     'path to weights file')
@@ -89,6 +90,12 @@ def main(_argv):
         fps = int(vid.get(cv2.CAP_PROP_FPS))
         codec = cv2.VideoWriter_fourcc(*FLAGS.output_format)
         out = cv2.VideoWriter(FLAGS.output, codec, fps, (width, height))
+
+
+
+    ALL_MIDPOINT_DATA = []
+
+    
 
     frame_num = 0
     # while video is running
@@ -200,10 +207,6 @@ def main(_argv):
         tracker.predict()
         tracker.update(detections)
 
-        print(tracker, tracker.tracks, type(tracker), type(tracker.tracks))
-        num_tracked_objects = len(tracker.tracks)
-        print('00000000000000000000', num_objects)
-
         # update tracks
         for track in tracker.tracks:
             if not track.is_confirmed() or track.time_since_update > 1:
@@ -222,6 +225,13 @@ def main(_argv):
             if FLAGS.info:
                 print("Tracker ID: {}, Class: {},  BBox Coords (xmin, ymin, xmax, ymax): {}".format(str(track.track_id), class_name, (int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3]))))
 
+            if True:        # FLAG.save_midpoints
+                                                                                    # xmin, ymin, xmax, ymax
+                save_data = [frame_num, class_name, track.track_id, int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3])]
+                ALL_MIDPOINT_DATA.append(save_data)
+
+
+
         # calculate frames per second of running detections
         fps = 1.0 / (time.time() - start_time)
         print("FPS: %.2f" % fps)
@@ -235,7 +245,21 @@ def main(_argv):
         if FLAGS.output:
             out.write(result)
         if cv2.waitKey(1) & 0xFF == ord('q'): break
+    
     cv2.destroyAllWindows()
+
+
+    with open('./data_csv') as f:
+        writer = csv.writer(f)
+        writer.writerow(["frame_num", "class_name", "track_id", "xmin", "ymin", "xmax", "ymax"])
+        for row in ALL_MIDPOINT_DATA:
+            writer.writerow([str(r) for r in row])
+
+
+    
+
+
+
 
 if __name__ == '__main__':
     try:
