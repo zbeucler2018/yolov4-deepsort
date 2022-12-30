@@ -200,6 +200,10 @@ def main(_argv):
         tracker.predict()
         tracker.update(detections)
 
+        print(tracker, tracker.tracks, type(tracker), type(tracker.tracks))
+        num_tracked_objects = len(tracker.tracks)
+        print('00000000000000000000', num_objects)
+
         # update tracks
         for track in tracker.tracks:
             if not track.is_confirmed() or track.time_since_update > 1:
