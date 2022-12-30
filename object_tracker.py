@@ -248,7 +248,7 @@ def main(_argv):
             out.write(result)
         if cv2.waitKey(1) & 0xFF == ord('q'): break
 
-        if frame_num == 2: break
+        if frame_num == 10: break
 
 
     
