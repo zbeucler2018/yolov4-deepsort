@@ -38,6 +38,7 @@ flags.DEFINE_float('score', 0.50, 'score threshold')
 flags.DEFINE_boolean('dont_show', False, 'dont show video output')
 flags.DEFINE_boolean('info', False, 'show detailed info of tracked objects')
 flags.DEFINE_boolean('count', False, 'count objects being tracked on screen')
+flags.DEFINE_boolean('save_midpoints', False, 'save the tracked objects midpoints to midpoints.csv')
 
 def main(_argv):
     # Definition of the parameters
@@ -91,11 +92,9 @@ def main(_argv):
         codec = cv2.VideoWriter_fourcc(*FLAGS.output_format)
         out = cv2.VideoWriter(FLAGS.output, codec, fps, (width, height))
 
-
-
-    ALL_MIDPOINT_DATA = []
-
-    
+    # --save_midpoints
+    if FLAGS.save_midpoints:
+        ALL_MIDPOINT_DATA = []
 
     frame_num = 0
     # while video is running
@@ -225,8 +224,7 @@ def main(_argv):
             if FLAGS.info:
                 print("Tracker ID: {}, Class: {},  BBox Coords (xmin, ymin, xmax, ymax): {}".format(str(track.track_id), class_name, (int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3]))))
 
-            if True:        # FLAG.save_midpoints
-                                                                                    # xmin, ymin, xmax, ymax
+            if FLAGS.save_midpoints:                                                      # xmin, ymin, xmax, ymax
                 save_data = [frame_num, class_name, track.track_id, int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3])]
                 ALL_MIDPOINT_DATA.append(save_data)
 
@@ -254,12 +252,12 @@ def main(_argv):
     
     cv2.destroyAllWindows()
 
-
-    with open('./data_csv', 'w') as f:
-        writer = csv.writer(f)
-        writer.writerow(["frame_num", "class_name", "track_id", "xmin", "ymin", "xmax", "ymax"])
-        for row in ALL_MIDPOINT_DATA:
-            writer.writerow([str(r) for r in row])
+    if FLAGS.save_midpoints:
+        with open('./data_csv', 'w') as f:
+            writer = csv.writer(f)
+            writer.writerow(["frame_num", "class_name", "track_id", "xmin", "ymin", "xmax", "ymax"])
+            for row in ALL_MIDPOINT_DATA:
+                writer.writerow([str(r) for r in row])
 
 
     
