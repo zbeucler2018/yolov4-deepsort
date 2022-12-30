@@ -237,6 +237,8 @@ def main(_argv):
         print("FPS: %.2f" % fps)
         result = np.asarray(frame)
         result = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+
+
         
         if not FLAGS.dont_show:
             cv2.imshow("Output Video", result)
@@ -245,6 +247,10 @@ def main(_argv):
         if FLAGS.output:
             out.write(result)
         if cv2.waitKey(1) & 0xFF == ord('q'): break
+
+        if frame_num == 2: break
+
+
     
     cv2.destroyAllWindows()
 
