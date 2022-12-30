@@ -251,7 +251,7 @@ def main(_argv):
         if FLAGS.output:
             out.write(result)
 
-        if FLAGS.stop_at_frame > -1 && frame_num == FLAGS.stop_at_frame:
+        if FLAGS.stop_at_frame > -1 & frame_num == FLAGS.stop_at_frame:
             break 
 
         if cv2.waitKey(1) & 0xFF == ord('q'): break
