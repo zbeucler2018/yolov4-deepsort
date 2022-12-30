@@ -39,6 +39,7 @@ flags.DEFINE_boolean('dont_show', False, 'dont show video output')
 flags.DEFINE_boolean('info', False, 'show detailed info of tracked objects')
 flags.DEFINE_boolean('count', False, 'count objects being tracked on screen')
 flags.DEFINE_boolean('save_midpoints', False, 'save the tracked objects midpoints to midpoints.csv')
+flags.DEFINE_integer('stop_at_frame', -1, 'stop after processing specific frame')
 
 def main(_argv):
     # Definition of the parameters
