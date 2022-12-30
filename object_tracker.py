@@ -82,6 +82,11 @@ def main(_argv):
     except:
         vid = cv2.VideoCapture(video_path)
 
+    total_frames = vid.get(cv2.CAP_PROP_FRAME_COUNT)
+
+    print(total_frames, " frames total")
+
+
     out = None
 
     # get video ready to save locally if flag is set
