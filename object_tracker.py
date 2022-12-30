@@ -258,12 +258,12 @@ def main(_argv):
     
     cv2.destroyAllWindows()
 
-    # if FLAGS.save_midpoints:
-    #     with open('./data_csv', 'w') as f:
-    #         writer = csv.writer(f)
-    #         writer.writerow(["frame_num", "class_name", "track_id", "xmin", "ymin", "xmax", "ymax"])
-    #         for row in ALL_MIDPOINT_DATA:
-    #             writer.writerow([str(r) for r in row])
+    if FLAGS.save_midpoints:
+        with open('./data_csv', 'w') as f:
+            writer = csv.writer(f)
+            writer.writerow(["frame_num", "class_name", "track_id", "xmin", "ymin", "xmax", "ymax"])
+            for row in ALL_MIDPOINT_DATA:
+                writer.writerow([str(r) for r in row])
 
 
 
